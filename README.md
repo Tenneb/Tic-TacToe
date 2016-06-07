@@ -7,3 +7,5 @@ By the way: The Masterbot is unbeatable.
 @author Bennet Wilhelm
 
 Special thanks to Skim and to Gerhard Röhner, the creator of the Java-Editor, the programm I used to program this Tic-Tac-Toe (http://javaeditor.org/doku.php)
+
+Note: In case you find some German comment in the code do not wonder. I am German.
