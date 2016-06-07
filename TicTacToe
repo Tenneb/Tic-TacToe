@@ -1,0 +1,1122 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.border.*;
+/**
+  *            
+  * Description: Just a little Tic-Tac-Toe game I programmed.  
+  * The User can select who is first and if his/her opponent is another player or the MasterBot.
+  * By the way: The Masterbot is unbeatable.
+  *
+  * @version 1.0 of 07.06.2016
+  * @author Bennet Wilhelm
+  */
+
+public class TicTacToe extends JFrame {
+  // Anfang Attribute
+  public int[][] board = new int[3][3];
+  public int moves = 0;
+  public int playersTurn = 0;
+  public boolean MasterBotEnabled = false;
+  public int botCase = 0;
+  
+  private JLabel jLabel1 = new JLabel();
+  private JButton jButton1 = new JButton();
+  private JButton jButton2 = new JButton();
+  private JButton jButton3 = new JButton();
+  private JButton jButton4 = new JButton();
+  private JButton jButton5 = new JButton();
+  private JButton jButton6 = new JButton();                                   
+  private JButton jButton7 = new JButton();
+  private JButton jButton8 = new JButton();
+  private JButton jButton9 = new JButton();
+  private JCheckBox jCheckBox1 = new JCheckBox("Human");
+  private JCheckBox jCheckBox2 = new JCheckBox("MasterBot");
+  private JCheckBox jCheckBox3 = new JCheckBox("Player 1");
+  private JCheckBox jCheckBox4 = new JCheckBox("Player 2");
+  private JLabel jLabel2 = new JLabel();
+  private JLabel jLabel3 = new JLabel();
+  private JLabel jLabel4 = new JLabel();
+  private JLabel jLabel5 = new JLabel();
+  private JLabel jLabel6 = new JLabel();
+  private JButton jButton10 = new JButton();
+  private JButton jButton11 = new JButton();
+  private JLabel jLabel7 = new JLabel();
+  // Ende Attribute
+    
+  public TicTacToe() { 
+    // Frame-Initialisierung
+    super();
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    int frameWidth = 400; 
+    int frameHeight = 350;
+    setSize(frameWidth, frameHeight);
+    Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+    int x = (d.width - getSize().width) / 2;
+    int y = (d.height - getSize().height) / 2;
+    setLocation(x, y);
+    setResizable(false);
+    Container cp = getContentPane();
+    cp.setLayout(null);
+    // Anfang Komponenten
+    jLabel1.setBounds(32, 8, 110, 20);
+    jLabel1.setText("Tic-Tac-Toe");
+    cp.add(jLabel1);
+    jButton1.setBounds(32, 48, 35, 33);
+    jButton1.setMargin(new Insets(2, 2, 2, 2));
+    jButton1.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton1_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton1);
+    jButton2.setBounds(32, 88, 35, 33);
+    jButton2.setMargin(new Insets(2, 2, 2, 2));
+    jButton2.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton2_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton2);
+    jButton3.setBounds(32, 128, 35, 33);
+    jButton3.setMargin(new Insets(2, 2, 2, 2));
+    jButton3.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton3_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton3);
+    jButton4.setBounds(80, 48, 35, 33);
+    jButton4.setMargin(new Insets(2, 2, 2, 2));
+    jButton4.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton4_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton4);
+    jButton5.setBounds(80, 88, 35, 33);
+    jButton5.setMargin(new Insets(2, 2, 2, 2));
+    jButton5.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton5_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton5);
+    jButton6.setBounds(80, 128, 35, 33);
+    jButton6.setMargin(new Insets(2, 2, 2, 2));
+    jButton6.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton6_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton6);
+    jButton7.setBounds(128, 48, 35, 33);
+    jButton7.setMargin(new Insets(2, 2, 2, 2));
+    jButton7.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton7_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton7);
+    jButton8.setBounds(128, 88, 35, 33);
+    jButton8.setMargin(new Insets(2, 2, 2, 2));
+    jButton8.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton8_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton8);
+    jButton9.setBounds(128, 128, 35, 33);
+    jButton9.setMargin(new Insets(2, 2, 2, 2));
+    jButton9.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton9_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton9);
+    jCheckBox1.setBounds(272, 120, 68, 20);
+    jCheckBox1.setOpaque(false);
+    cp.add(jCheckBox1);
+    jCheckBox2.setBounds(272, 144, 84, 20);
+    jCheckBox2.setOpaque(false);
+    cp.add(jCheckBox2);
+    jCheckBox3.setBounds(216, 208, 100, 20);
+    jCheckBox3.setOpaque(false);
+    jCheckBox3.setText("Player X");
+    cp.add(jCheckBox3);
+    jCheckBox4.setBounds(216, 232, 100, 20);
+    jCheckBox4.setOpaque(false);
+    jCheckBox4.setText("Player O");
+    cp.add(jCheckBox4);
+    jLabel2.setBounds(216, 184, 110, 20);
+    jLabel2.setText("Who is first?");
+    cp.add(jLabel2);
+    jLabel3.setBounds(224, 0, 157, 20);
+    jLabel3.setText("Created by Bennet Wilhelm");
+    cp.add(jLabel3);
+    jLabel4.setBounds(216, 56, 110, 20);
+    jLabel4.setText("Settings:");
+    cp.add(jLabel4);
+    jLabel5.setBounds(216, 96, 110, 20);
+    jLabel5.setText("Player X: Human");
+    cp.add(jLabel5);
+    jLabel6.setBounds(216, 120, 55, 20);
+    jLabel6.setText("Player O:");
+    cp.add(jLabel6);
+    jButton10.setBounds(32, 176, 75, 25);
+    jButton10.setText("Start Game");
+    jButton10.setMargin(new Insets(2, 2, 2, 2));
+    jButton10.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton10_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton10);
+    jButton11.setBounds(32, 208, 75, 25);
+    jButton11.setText("New Game");
+    jButton11.setMargin(new Insets(2, 2, 2, 2));
+    jButton11.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        jButton11_ActionPerformed(evt);
+      }
+    });
+    cp.add(jButton11);
+    jLabel7.setBounds(32, 264, 326, 44);
+    jLabel7.setText("");
+    cp.add(jLabel7);
+    Border border = LineBorder.createGrayLineBorder();
+    jLabel7.setBorder(border);
+    // Ende Komponenten
+    
+    setVisible(true);
+    
+    jCheckBox1.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        if (jCheckBox2.isSelected()) {
+          jCheckBox2.setSelected(false);
+        } // end of if
+      }
+    }); 
+    
+    jCheckBox2.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        if (jCheckBox1.isSelected()) {
+          jCheckBox1.setSelected(false);
+        } // end of if
+      }
+    });
+    
+    jCheckBox3.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        if (jCheckBox4.isSelected()) {
+          jCheckBox4.setSelected(false);
+        } // end of if
+      }
+    });
+    
+    jCheckBox4.addActionListener(new ActionListener() { 
+      public void actionPerformed(ActionEvent evt) { 
+        if (jCheckBox3.isSelected()) {
+          jCheckBox3.setSelected(false);
+        } // end of if
+      }
+    });
+    
+    jButton1.setEnabled(false);
+    jButton2.setEnabled(false);
+    jButton3.setEnabled(false);
+    jButton4.setEnabled(false);
+    jButton5.setEnabled(false);
+    jButton6.setEnabled(false);
+    jButton7.setEnabled(false);
+    jButton8.setEnabled(false);
+    jButton9.setEnabled(false);
+    jButton11.setEnabled(false);   
+  } // end of public TicTacToe
+  
+    // Anfang Methoden
+    
+  public static void main(String[] args) {
+    new TicTacToe();
+  } // end of main
+  
+  public void jButton1_ActionPerformed(ActionEvent evt) {
+    play(0,0);
+  } // end of jButton1_ActionPerformed
+  
+  public void jButton2_ActionPerformed(ActionEvent evt) {
+    play(0,1);
+  } // end of jButton2_ActionPerformed
+  
+  public void jButton3_ActionPerformed(ActionEvent evt) {
+    play(0,2);  
+  } // end of jButton3_ActionPerformed
+  
+  public void jButton4_ActionPerformed(ActionEvent evt) {
+    play(1,0);
+  } // end of jButton4_ActionPerformed
+  
+  public void jButton5_ActionPerformed(ActionEvent evt) {
+    play(1,1);
+  } // end of jButton5_ActionPerformed
+  
+  public void jButton6_ActionPerformed(ActionEvent evt) {
+    play(1,2);
+  } // end of jButton6_ActionPerformed
+  
+  public void jButton7_ActionPerformed(ActionEvent evt) {
+    play(2,0);
+  } // end of jButton7_ActionPerformed
+  
+  public void jButton8_ActionPerformed(ActionEvent evt) {
+    play(2,1);
+  } // end of jButton8_ActionPerformed
+  
+  public void jButton9_ActionPerformed(ActionEvent evt) {
+    play(2,2);
+  } // end of jButton9_ActionPerformed
+  
+  public void jButton10_ActionPerformed(ActionEvent evt) {
+    setup(1);  //Game starts
+  } // end of jButton10_ActionPerformed
+  
+  public void jButton11_ActionPerformed(ActionEvent evt) {
+    setup(2); //New Game
+  } // end of jButton11_ActionPerformed
+  
+  public void play(int x, int y){    
+    fillboard(x, y); 
+    if (board[x][y] != 0) {
+      System.out.println("ERROR");
+    } // end of if
+    board[x][y] = playersTurn; //updates the board
+    
+    moves++;     //updates the total moves count
+    
+    if (check() == true) {
+      win(playersTurn);
+      return;  
+    } // end of if    
+    else { //if check() == false
+      if (moves == 9) {   //if no player won after 9 moves the game is considered tied
+        jLabel7.setText("Tied");
+      } // end of if
+      else {
+        if (playersTurn == 1) {            //updates playersTurn and jLabel7 only if no player has won yet. otherwise it would overwrite "Player X has won"
+          playersTurn = 2;
+          jLabel7.setText("It's Player O's turn");
+        } // end of if
+        else {    //if (playersTurn == 2)                    
+          playersTurn = 1;
+          jLabel7.setText("It's Player X's turn");
+        } // end of if-else
+      } // end of if-else
+    } // end of if-else
+    
+    if (MasterBotEnabled) {
+      if (playersTurn == 2) {
+        MasterBotCaseAnalyser(x,y);
+        MasterBot();
+      } // end of if
+    } // end of if    
+  }
+  
+  public void MasterBot(){  
+    switch (botCase) {    //botCase 2 = Bot start; botCase 1 = Human starts
+      case  2: 
+        play(0,2);
+        break;
+        
+      case 21:
+        play(2,0);
+        break;
+        
+      case 22:
+        if (board[0][1] == 0) {
+          play(0,0);
+        } // end of if
+        else {
+          play(2,2);
+        } // end of if-else
+        break;
+        
+      case 23:
+        play(0,0);
+        break;
+        
+      case 24:
+        if (board[0][0] == 0) {
+          play(0,0);
+        } // end of if
+        else {
+          play(2,2);
+        } // end of if-else
+        break;  
+        
+      case 211:
+        if (board[0][0] == 0) {
+          play(0,0);
+        } // end of if
+        else {
+          play(2,2);
+        } // end of if-else
+        break;
+        
+      case 212:
+        block();
+        break;
+        
+      case 221:
+        play(1,1);
+        break;
+        
+      case 222:
+        if (board[0][1] == 0) {
+          play(0,1);
+        } // end of if
+        else {
+          play(1,2);
+        } // end of if-else
+        break;
+        
+      case 231:                     //just in the last remaining corner
+        if (board[2][2] == 0) {
+          play(2,2);
+        } // end of if
+        else if (board[0][2] == 0){
+          play(0,2);
+        } // end of if-else
+        else if (board[2][0] == 0){
+          play(2,0);
+        } // end of if-else
+        else {                //if board[0][0] == 0
+          play(0,0);
+        } // end of if-else
+        break;
+        
+      case 232:
+        play(0,1);
+        break;
+        
+      case 241:                     //just in the last remaining corner
+        if (board[2][0] == 0){
+          play(2,0);
+        } // end of if-else
+        else if (board[0][2] == 0){
+          play(0,2);
+        } // end of if-else
+        else if (board[2][2] == 0) {
+          play(2,2);
+        } // end of if
+        else {                //if board[0][0] == 0
+          play(0,0);
+        } // end of if-else
+        break;
+        
+      case 242:
+        play(0,1);
+        break;        
+        
+      case 2111:
+        if (board[1][2] == 0) {
+          play(1,2);
+        } // end of if
+        else {
+          play(2,1);
+        } // end of if-else
+        break;
+        
+      case 2121:
+        if (canIWin()) {
+          //canIWin played already
+        } // end of if
+        else {
+          int tmpMoves = moves;
+          block();
+          if (tmpMoves == moves) { //this prevents the bot from making 2 moves at once      translates to: if the bot did not block
+            playAnywhere();
+          } // end of if
+        } // end of if-else
+        break;
+        
+      case 2211:
+        play(2,2);
+        break;
+        
+      case 2212:
+        if (board[2][2] == 0) {
+          play(2,2);
+        } // end of if
+        else {
+          play(2,0);
+        } // end of if-else
+        break;
+        
+      case 2311:
+        play(1,1);
+        break;
+        
+      case 2312:
+        play(1,2);
+        break;  
+        
+      case 2412:
+        play(1,1);
+        break;
+        
+      case 2413:
+        canIWin();
+        break;  
+        
+        
+        // Everything in the method above this comment deals with the cases in wich the bot startet the game.  
+        // Everything in the method below this comment deals with the cases in wich the player startet the game.
+        
+        
+      case 11:
+        if (board[0][1] == 1 | board[1][2] == 1) {
+          play(0,2);
+        } // end of if
+        else {
+          play(2,0);
+        } // end of if-else
+        break;
+        
+      case 12:
+        play(0,2);
+        break;
+        
+      case 13:
+        play(1,1);
+        break;
+        
+      case 112:
+        play(1,1);
+        break;
+        
+      case 121:    
+        play(0,0);
+        break;
+        
+      case 131:
+        play(1,2);
+        break;
+        
+      case 132:
+        if (canIWin()) {
+          //canIWin played already
+        } // end of if
+        else {
+          int tmpMoves = moves;
+          block();
+          if (tmpMoves == moves) { //this prevents the bot from making 2 moves at once      translates to: if the bot did not block
+            playAnywhere();
+          } // end of if
+        } // end of if-else
+        break;
+        
+      default: jLabel7.setText("MasterBot has failed.");     
+    } // end of switch
+    
+  }    //End of MasterBot()
+  
+  public void MasterBotCaseAnalyser(int x, int y){
+    switch (botCase) {
+      case  2: 
+        if (analyseMove(x,y).equals("middle")) {
+          botCase = 21;
+        } // end of if
+        else if (analyseMove(x,y).equals("edge")) {
+          botCase = 22;
+        } // end of else-if
+        else if (x == 2 && y == 0) {
+          botCase = 23;
+        } // end of if-else
+        else {                 //if the player put his X neither in the middle, nor at an edge or at the opposite corner he has to put it in the neighbouring corner
+          botCase = 24;
+        } // end of if-else
+        break;
+        
+      case  21: 
+        if (analyseMove(x,y).equals("corner")) {
+          botCase = 211;
+        } // end of if
+        else {     // if 
+          botCase = 212;
+        } // end of if-else analyseMove(x,y).equals("edge")
+        break;
+        
+      case 22:
+        if (x == 0 && y == 1) {
+          botCase = 221;
+        } // end of if
+        else {
+          botCase = 222;
+        } // end of if-else
+        break;
+        
+      case 23:
+        if (x == 0 && y == 1) {
+          botCase = 231;
+        } // end of if
+        else {
+          botCase = 232;
+        } // end of if-else
+        break;
+        
+      case 24:
+        if (board[0][0] == 2) {
+          if (x == 0 && y == 1) {
+            botCase = 241;
+          } // end of if
+        } // end of if
+        else if (board[2][2] == 2) {
+          if (x == 1 && y == 2) {
+            botCase = 241;
+          } // end of if
+        } // end of if-else
+        else {
+          botCase = 242;
+        } // end of if-else
+        break;
+        
+      case 211:
+        botCase = 2111;
+        break;
+        
+      case 212:
+        botCase = 2121;
+        break;
+        
+      case 221:
+        if (analyseMove(x,y).equals("edge")) {
+          botCase = 2211;
+        } // end of if
+        else {   //if analyseMove(x,y).equals("corner")
+          botCase = 2212;
+        } // end of if-else
+        break;
+        
+      case 231:
+        if (analyseMove(x,y).equals("edge")) {
+          botCase = 2311;
+        } // end of if
+        else { //  if (analyseMove(x,y).equals("middle"))
+          botCase = 2312;
+        } // end of if-else
+        break;
+        
+      case 241:
+        if (analyseMove(x,y).equals("edge")) {
+          botCase = 2412;
+        } // end of if
+        else { //  if  !(analyseMove(x,y).equals("middle"))
+          botCase = 2413;
+        } // end of if-else
+        break;  
+        
+      case 2121:
+        //botCase remains the same
+        break;
+        
+        
+        // Everything in the method above this comment deals with the cases in wich the bot startet the game.  
+        // Everything in the method below this comment deals with the cases in wich the player startet the game.
+        
+        
+      case 1:
+        if (analyseMove(x,y).equals("edge")) {
+          botCase = 11;
+        } // end of if
+        else if (analyseMove(x,y).equals("middle")) {
+          botCase = 12;
+        } // end of if-else
+        else {                 //if (analyseMove(x,y).equals("corner"))
+          botCase = 13;
+        } // end of if-else
+        break;
+        
+      case 11:
+        if (analyseMove(x,y).equals("middle")) {
+          botCase = 132;
+        } // end of if
+        else {
+          botCase = 112;
+        } // end of if-else
+        break;
+        
+      case 12:
+        if (x == 2 && y == 0) {
+          botCase = 121;
+        } // end of if
+        else {
+          botCase = 132;
+        } // end of if-else
+        break;    
+        
+      case 13:
+        if (x == 2 && y == 0) {
+          botCase = 131;
+        } // end of if
+        else {
+          botCase = 132;
+        } // end of if-else
+        break;
+        
+      case 112:
+        botCase = 132;
+        break;
+        
+      case 121:
+        botCase = 132;
+        break;
+        
+      case 131:
+        botCase = 132;
+        break;
+        
+      case 132:
+        //botCase remains the same
+        break;  
+        
+      default: jLabel7.setText("MasterBotCaseAnalyser has failed.");          
+    } // end of switch   
+  }
+  
+  public String analyseMove(int x, int y){
+    if (x == 1 && y == 1) {
+      return "middle";
+    } // end of if
+    else if ( x == 1 | y == 1) {
+      return "edge";
+    } // end of if-else
+    else {
+      return "corner";
+    } // end of if-else
+  }
+  
+  public void block(){
+    int tmpBlock = 0;
+    
+    for (int counterBlockH = 0; counterBlockH <= 2; counterBlockH++) {   //Horizonal Block
+      tmpBlock = board[0][counterBlockH]*100 + board[1][counterBlockH]*10 + board[2][counterBlockH];
+      switch (tmpBlock) {
+        case  11: 
+          play(0,counterBlockH);
+          return;
+          
+        case  101: 
+          play(1,counterBlockH);
+          return;
+          
+        case 110:
+          play(2,counterBlockH);
+          return;
+          
+        default: //There is nothing to block 
+      } // end of switch
+    } // end of for
+    
+    
+    for (int counterBlockV = 0; counterBlockV <= 2; counterBlockV++) {   //Vertical Block
+      tmpBlock = board[counterBlockV][0]*100 + board[counterBlockV][1]*10 + board[counterBlockV][2];
+      switch (tmpBlock) {
+        case  11: 
+          play(counterBlockV,0);
+          return;
+          
+        case  101: 
+          play(counterBlockV,1);
+          return;
+          
+        case 110:
+          play(counterBlockV,2);
+          return; 
+          
+        default: //There is nothing to block  
+      } // end of switch
+    } // end of for
+    
+    
+    tmpBlock = board[0][0]*100 + board[1][1]*10 + board[2][2];
+    switch (tmpBlock) {
+      case  11: 
+        play(0,0);
+        return;
+        
+      case  101: 
+        play(1,1);
+        return;
+        
+      case 110:
+        play(2,2);
+        return; 
+        
+      default: //There is nothing to block  
+    } // end of switch
+    
+    
+    tmpBlock = board[2][0]*100 + board[1][1]*10 + board[0][2];
+    switch (tmpBlock) {
+      case  11: 
+        play(2,0);
+        return;
+        
+      case  101: 
+        play(1,1);
+        return;
+        
+      case 110:
+        play(0,2);
+        return; 
+        
+      default: //There is nothing to block  
+    } // end of switch    
+  }
+  
+  public boolean canIWin(){
+    int tmpCanIWin;
+    
+    for (int counterCanIWinH = 0; counterCanIWinH <= 2; counterCanIWinH++) {   //Horizonal Block
+      tmpCanIWin = board[0][counterCanIWinH]*100 + board[1][counterCanIWinH]*10 + board[2][counterCanIWinH];
+      switch (tmpCanIWin) {
+        case  22: 
+          play(0,counterCanIWinH);
+          return true;
+          
+        case  202: 
+          play(1,counterCanIWinH);
+          return true;
+          
+        case 220:
+          play(2,counterCanIWinH);
+          return true;
+          
+        default: //The Bot is unable to win here.
+      } // end of switch
+    } // end of for
+    
+    
+    for (int counterCanIWinV = 0; counterCanIWinV <= 2; counterCanIWinV++) {   //Vertical Block
+      tmpCanIWin = board[counterCanIWinV][0]*100 + board[counterCanIWinV][1]*10 + board[counterCanIWinV][2];
+      switch (tmpCanIWin) {
+        case  22: 
+          play(counterCanIWinV,0);
+          return true;
+          
+        case  202: 
+          play(counterCanIWinV,1);
+          return true;
+          
+        case 220:
+          play(counterCanIWinV,2);
+          return true; 
+          
+        default: //The Bot is unable to win here.  
+      } // end of switch
+    } // end of for
+    
+    
+    tmpCanIWin = board[0][0]*100 + board[1][1]*10 + board[2][2];
+    switch (tmpCanIWin) {
+      case  22: 
+        play(0,0);
+        return true;
+        
+      case  202: 
+        play(1,1);
+        return true;
+        
+      case 220:
+        play(2,2);
+        return true; 
+        
+      default: //The Bot is unable to win here.  
+    } // end of switch
+    
+    
+    tmpCanIWin = board[2][0]*100 + board[1][1]*10 + board[0][2];
+    switch (tmpCanIWin) {
+      case  22: 
+        play(2,0);
+        return true;
+        
+      case  202: 
+        play(1,1);
+        return true;
+        
+      case 220:
+        play(0,2);
+        return true; 
+        
+      default: //The Bot is unable to win here.  
+    } // end of switch
+    
+    return false; //if the bot can not win in this turn  
+  }
+  
+  public void playAnywhere(){  
+    for (int counterOut = 0; counterOut <= 2; counterOut++) {
+      for (int counterIn = 0; counterIn <= 2; counterIn++) {
+        if (board[counterOut][counterIn] == 0) {
+          play(counterOut,counterIn);
+          return;
+        } // end of if
+      } // end of for
+    } // end of for
+  }
+  
+  public boolean check(){
+    if (moves >= 5) {     //the earliest possible win can occur after 5 moves. Thats why the check() algorithm is only executed after 5 or more moves.
+      
+      for (int counterV = 0; counterV <=2; counterV++) {       //Vertical check
+        if (board[counterV][0] == board[counterV][1] && board[counterV][1] == board[counterV][2] && board[counterV][2] != 0) {
+          return true;
+        } // end of if
+      } // end of for
+      
+      for (int counterH = 0; counterH <=2; counterH++) {         //Horizontal check  
+        if (board[0][counterH] == board[1][counterH] && board[1][counterH] == board[2][counterH] && board[2][counterH] != 0) {
+          return true;
+        } // end of if
+      } // end of for
+      
+      if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[2][2] != 0) {
+        return true;    
+      } // end of if
+      else if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[1][1] != 0) {
+        return true;     
+      }  
+    } // end of if
+    
+    return false;  
+  }          
+                   
+  public String XorO(int value){
+    if (value == 1) {
+      return "X";
+    } // end of if
+    else {   //if value == 2
+      return "O";
+    } // end of if-else
+  }
+  
+  public void win(int value){
+    if (value == 1) {
+      jLabel7.setText("Player X wins");
+    } // end of if
+    else { //if value == 2
+      if (MasterBotEnabled) {
+        jLabel7.setText("MasterBot wins");
+      } // end of if
+      else {
+        jLabel7.setText("Player O wins");
+      } // end of if-else
+    } // end of if-else
+    setup(3);
+  }
+    
+  public void resetBoard(){
+    for (int counterOutside = 0; counterOutside <= 2; counterOutside++) {
+      for (int counterInside = 0; counterInside <= 2; counterInside++) {
+        board[counterOutside][counterInside] = 0;
+      } // end of for
+    } // end of for
+  }
+  
+  public void arrayToString(){   //This is a de-bug method. It allowes the programmer to see the board, rather than only the buttons
+    System.out.println("   " + 0 + " " + 1 + " " + 2);
+    System.out.println("1 [" + board[0][0] + "]" + "[" + board[1][0] + "]" + "[" + board[2][0] + "]" );
+    System.out.println("2 [" + board[0][1] + "]" + "[" + board[1][1] + "]" + "[" + board[2][1] + "]" );
+    System.out.println("3 [" + board[0][2] + "]" + "[" + board[1][2] + "]" + "[" + board[2][2] + "]" );
+  }    
+  
+  public void fillboard( int x, int y){
+    //This switch disables and labels the buttons
+    switch (x) {                                                               
+      case 0:         
+        switch (y) {
+          case 0: 
+            jButton1.setText(XorO(playersTurn));            
+            jButton1.setEnabled(false);
+            break;
+            
+          case 1: 
+            jButton2.setText(XorO(playersTurn));            
+            jButton2.setEnabled(false);
+            break;
+            
+          case 2:
+            jButton3.setText(XorO(playersTurn));            
+            jButton3.setEnabled(false);
+            break;
+            
+          default: jLabel7.setText("An Error occured. Please restart.");
+            
+        } // end of switch
+        break;
+        
+      case 1:        
+        switch (y) {
+          case 0: 
+            jButton4.setText(XorO(playersTurn));            
+            jButton4.setEnabled(false);
+            break;
+            
+          case 1: 
+            jButton5.setText(XorO(playersTurn));            
+            jButton5.setEnabled(false);
+            break;
+            
+          case 2:
+            jButton6.setText(XorO(playersTurn));            
+            jButton6.setEnabled(false);
+            break;
+            
+          default: jLabel7.setText("An Error occured. Please restart.");
+            
+        } // end of switch 
+        break;
+        
+      case 2:        
+        switch (y) {
+          case 0: 
+            jButton7.setText(XorO(playersTurn));            
+            jButton7.setEnabled(false);
+            break;
+            
+          case 1: 
+            jButton8.setText(XorO(playersTurn));            
+            jButton8.setEnabled(false);
+            break;
+            
+          case 2:
+            jButton9.setText(XorO(playersTurn));            
+            jButton9.setEnabled(false);
+            break;
+            
+          default: jLabel7.setText("An Error occured. Please restart.");
+            
+        } // end of switch
+        break;
+        
+      default: jLabel7.setText("An Error occured. Please restart.");
+        
+    } // end of switch   
+  }
+    
+  public void setup(int value){
+    if (value == 1) { //Start Game
+      jCheckBox1.setEnabled(false);
+      jCheckBox2.setEnabled(false);
+      jCheckBox3.setEnabled(false);
+      jCheckBox4.setEnabled(false);
+      jLabel2.setEnabled(false);
+      jLabel4.setEnabled(false);
+      jLabel5.setEnabled(false);
+      jLabel6.setEnabled(false);
+      
+      resetBoard();
+      moves = 0;   
+      botCase = 0;
+      
+      if (jCheckBox4.isSelected()) {
+        playersTurn = 2;
+      } // end of if
+      else {  
+        playersTurn = 1;
+        jCheckBox3.setSelected(true);
+      } // end of if-else
+      
+      if (jCheckBox2.isSelected()) {
+        MasterBotEnabled = true;
+        botCase = playersTurn;    //botCase 2 = Bot start; botCase 1 = Human starts
+      } // end of if
+      else {   
+        MasterBotEnabled = false;
+        jCheckBox1.setSelected(true);
+      } // end of if-else
+      
+      jButton1.setEnabled(true);
+      jButton2.setEnabled(true);
+      jButton3.setEnabled(true);
+      jButton4.setEnabled(true);
+      jButton5.setEnabled(true);
+      jButton6.setEnabled(true);
+      jButton7.setEnabled(true);
+      jButton8.setEnabled(true);
+      jButton9.setEnabled(true);
+      jButton10.setEnabled(false);
+      jButton11.setEnabled(true);
+      
+      if (playersTurn == 1) {
+        jLabel7.setText("It's Player X's turn");
+      } // end of if
+      else { //if playersTurn == 2
+        jLabel7.setText("It's Player O's turn");
+      } // end of if-else
+      
+      if (playersTurn == 2 && MasterBotEnabled) {    //if MasterBot makes the first move
+        MasterBot();
+      } // end of if
+    } // end of if
+    else if (value == 2) {     //New Game
+      jCheckBox1.setEnabled(true);
+      jCheckBox2.setEnabled(true);
+      jCheckBox3.setEnabled(true);
+      jCheckBox4.setEnabled(true);
+      jLabel2.setEnabled(true);
+      jLabel4.setEnabled(true);
+      jLabel5.setEnabled(true);
+      jLabel6.setEnabled(true);
+      
+      jButton1.setEnabled(false);
+      jButton2.setEnabled(false);
+      jButton3.setEnabled(false);
+      jButton4.setEnabled(false);
+      jButton5.setEnabled(false);
+      jButton6.setEnabled(false);
+      jButton7.setEnabled(false);
+      jButton8.setEnabled(false);
+      jButton9.setEnabled(false);
+      jButton10.setEnabled(true);
+      jButton11.setEnabled(false);
+      
+      jButton1.setText("");
+      jButton2.setText("");
+      jButton3.setText("");
+      jButton4.setText("");
+      jButton5.setText("");
+      jButton6.setText("");
+      jButton7.setText("");
+      jButton8.setText("");
+      jButton9.setText("");
+      jLabel7.setText("");
+    } // end of if
+    else {  //if value == 3   Game is won
+      jCheckBox1.setEnabled(false);
+      jCheckBox2.setEnabled(false);
+      jCheckBox3.setEnabled(false);
+      jCheckBox4.setEnabled(false);
+      jLabel2.setEnabled(false);
+      jLabel4.setEnabled(false);
+      jLabel5.setEnabled(false);
+      jLabel6.setEnabled(false);
+      
+      jButton1.setEnabled(false);
+      jButton2.setEnabled(false);
+      jButton3.setEnabled(false);
+      jButton4.setEnabled(false);
+      jButton5.setEnabled(false);
+      jButton6.setEnabled(false);
+      jButton7.setEnabled(false);
+      jButton8.setEnabled(false);
+      jButton9.setEnabled(false);
+      jButton10.setEnabled(false);
+      jButton11.setEnabled(true);      
+    } // end of if-else
+  }
+    
+    // Ende Methoden
+} // end of class TicTacToe
