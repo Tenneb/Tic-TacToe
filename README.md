@@ -7,6 +7,6 @@ Dont be confused by the strategy used by the MasterBot. I included two pictures 
 @version 1.0 of 07.06.2016 
 @author Bennet Wilhelm
 
-Special thanks to Skim and to Gerhard Röhner, the creator of the Java-Editor, the programm I used to program this Tic-Tac-Toe (http://javaeditor.org/doku.php)
+Special thanks to Skim and to Gerhard Röhner, the creator of the Java-Editor, the application I used to program this Tic-Tac-Toe (http://javaeditor.org/doku.php)
 
 Note: In case you find some German comments in the code do not wonder. I am German.
